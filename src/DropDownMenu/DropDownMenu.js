@@ -1,14 +1,10 @@
 import React, {Component, PropTypes} from 'react';
-import ReactDOM from 'react-dom';
 import transitions from '../styles/transitions';
 import DropDownArrow from '../svg-icons/navigation/arrow-drop-down';
 import Menu from '../Menu/Menu';
 import ClearFix from '../internal/ClearFix';
 import Popover from '../Popover/Popover';
 import PopoverAnimationVertical from '../Popover/PopoverAnimationVertical';
-import keycode from 'keycode';
-import Events from '../utils/events';
-import IconButton from '../IconButton/IconButton';
 
 const anchorOrigin = {
   vertical: 'top',
@@ -31,7 +27,7 @@ function getStyles(props, context) {
       fill: accentColor,
       position: 'absolute',
       right: spacing.desktopGutterLess,
-      top: ((spacing.iconSize - 24) / 2) + spacing.desktopGutterMini / 2,
+      top: ((spacing.desktopToolbarHeight - 24) / 2),
     },
     label: {
       color: disabled ? palette.disabledColor : palette.textColor,
@@ -39,7 +35,9 @@ function getStyles(props, context) {
       opacity: 1,
       position: 'relative',
       paddingLeft: spacing.desktopGutter,
-      paddingRight: (spacing.iconSize * 2) + spacing.desktopGutterMini,
+      paddingRight: spacing.iconSize +
+      spacing.desktopGutterLess +
+      spacing.desktopGutterMini,
       top: 0,
     },
     labelWhenOpen: {
@@ -225,61 +223,22 @@ class DropDownMenu extends Component {
   };
 
   handleRequestCloseMenu = () => {
-    this.close(false);
-  };
-
-  handleFocus = (event) => {
-    // this is a work-around for SelectField losing keyboard focus
-    // because the containing TextField re-renders
-    if (event) event.stopPropagation();
-  }
-
-  handleBlur = (event) => {
-    if (event) event.stopPropagation();
-  }
-
-  handleEscKeyDownMenu = (event) => {
-    event.preventDefault();
-    this.close(true);
-  };
-
-  handleKeyDown = (event) => {
-    const key = keycode(event);
-    switch (key) {
-      case 'down':
-      case 'space':
-        event.preventDefault();
-        this.setState({
-          open: true,
-          anchorEl: this.refs.root,
-        });
-        break;
-    }
+    this.setState({
+      open: false,
+      anchorEl: null,
+    });
   };
 
   handleItemTouchTap = (event, child, index) => {
     event.persist();
-    event.preventDefault();
     this.setState({
       open: false,
     }, () => {
       if (this.props.onChange) {
         this.props.onChange(event, index, child.props.value);
       }
-      this.close(Events.isKeyboard(event));
     });
   };
-
-  close = (isKeyboard) => {
-    this.setState({open: false}, () => {
-      if (isKeyboard) {
-        const dropArrow = this.refs.dropArrow;
-        const dropNode = ReactDOM.findDOMNode(dropArrow);
-        dropNode.focus();
-        dropArrow.setKeyboardFocus(true);
-      }
-    });
-  }
 
   render() {
     const {
@@ -333,20 +292,12 @@ class DropDownMenu extends Component {
         style={prepareStyles(Object.assign({}, styles.root, open && styles.rootWhenOpen, style))}
       >
         <ClearFix style={styles.control} onTouchTap={this.handleTouchTapControl}>
-          <div style={prepareStyles(Object.assign({}, styles.label, open && styles.labelWhenOpen, labelStyle))}>
+          <div
+            style={prepareStyles(Object.assign({}, styles.label, open && styles.labelWhenOpen, labelStyle))}
+          >
             {displayValue}
           </div>
-          <IconButton
-            centerRipple={true}
-            tabIndex={this.props.disabled ? -1 : 0}
-            onKeyDown={this.handleKeyDown}
-            onFocus={this.handleFocus}
-            onBlur={this.handleBlur}
-            ref="dropArrow"
-            style={Object.assign({}, styles.icon, iconStyle)}
-          >
-            <DropDownArrow />
-          </IconButton>
+          <DropDownArrow style={Object.assign({}, styles.icon, iconStyle)} />
           <div style={prepareStyles(Object.assign({}, styles.underline, underlineStyle))} />
         </ClearFix>
         <Popover
@@ -361,7 +312,6 @@ class DropDownMenu extends Component {
             maxHeight={maxHeight}
             desktop={true}
             value={value}
-            onEscKeyDown={this.handleEscKeyDownMenu}
             style={menuStyle}
             listStyle={listStyle}
             onItemTouchTap={this.handleItemTouchTap}
