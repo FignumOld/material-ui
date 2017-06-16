@@ -35,7 +35,7 @@ function parse(dateString, locale) {
 }
 
 /**
- * 
+ * Formats the given date according to the given locale
  * @param {date} Date The date to be formatted as string
  * @param {string} locale The locale used in the formatting
  */
