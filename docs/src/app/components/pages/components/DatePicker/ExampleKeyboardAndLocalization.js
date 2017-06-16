@@ -51,7 +51,7 @@ function format(date, locale) {
 const KeyboardAndLocalization = () => (
   <div>
     <DatePicker
-      hintText="Keyboard & Localization"
+      floatingLabelText="Keyboard & Localization"
       DateTimeFormat={DateTimeFormat}
       okLabel="OK"
       cancelLabel="Annuler"
@@ -60,7 +60,7 @@ const KeyboardAndLocalization = () => (
       container="inline"
       parseDate={parse}
       formatDate={format}
-      hintTextFocus={getLocaleDateFormat('en-US')}
+      hintText={getLocaleDateFormat("en-US")}
     />
   </div>
 );

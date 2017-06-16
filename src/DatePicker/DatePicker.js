@@ -399,7 +399,6 @@ class DatePicker extends Component {
       textFieldStyle,
       formatDate, // eslint-disable-line no-unused-vars
       parseDate, // eslint-disable-line no-unused-vars
-      hintTextFocus: hintTextFocusProp,
       ...other,
     } = this.props;
 
@@ -411,8 +410,7 @@ class DatePicker extends Component {
       'Enter a valid date' :
       this.props.errorText;
 
-    const hintTextFocus = keyboardEnabled && this.state.keyboardActivated ? hintTextFocusProp : null;
-    const hintText = hintTextFocus || this.props.hintText;
+    const hintText = keyboardEnabled && this.state.keyboardActivated ? this.props.hintText : null;
 
     return (
       <div ref="root" className={className} style={prepareStyles(Object.assign({}, style))}>
