@@ -1,6 +1,6 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import {dateTimeFormat, formatIso, isEqualDate} from './dateUtils';
+import { dateTimeFormat, formatIso, isEqualDate } from './dateUtils';
 import DatePickerDialog from './DatePickerDialog';
 import TextField from '../TextField';
 import deprecated from '../utils/deprecatedPropType';
@@ -252,7 +252,7 @@ class DatePicker extends Component {
 
   handleInputFocus = (event) => {
     if (this.shouldHandleKeyboard()) {
-      this.setState({keyboardActivated: true}, this.focus);
+      this.setState({ keyboardActivated: true }, this.focus);
     } else {
       event.target.blur();
     }
@@ -275,7 +275,7 @@ class DatePicker extends Component {
     switch (key) {
       case 'tab':
         if (this.state.keyboardActivated)
-          this.setState({keyboardActivated: false}, this.refs.dialogWindow.dismiss);
+          this.setState({ keyboardActivated: false }, this.refs.dialogWindow.dismiss);
         break;
       case 'right':
       case 'left':
@@ -306,27 +306,28 @@ class DatePicker extends Component {
     if (!this.refs.dialogWindow.state.open) {
       this.refs.dialogWindow.show();
     }
-
-    const filtered = event.target.value.replace(/[^0-9\-\/]/gi, '').replace('/', '-');
-    let dt = undefined;
-    if (filtered.length === 10) {
-      // we split this manually as Date.parse is implementation specific
-      // and also because it doesn't use the browser's timezone.
-      const parts = filtered.split('-');
-      if (parts.length === 3)
-        dt = new Date(parts[0], parts[1] - 1, parts[2]); // Note: months are 0 based
+    const defaultParseDate = (dateString, locale) => {
+      const filtered = event.target.value.replace(/[^0-9\-\/]/gi, '').replace('/', '-');
+      let dt = undefined;
+      if (filtered.length === 10) {
+        // we split this manually as Date.parse is implementation specific
+        // and also because it doesn't use the browser's timezone.
+        const parts = filtered.split('-');
+        if (parts.length === 3)
+          return new Date(parts[0], parts[1] - 1, parts[2]); // Note: months are 0 based
+      }
+      return filtered;
     }
-
-    this.setState({
-      date: !dt || isNaN(dt.getTime()) ? filtered : dt,
-    });
+    const parseDate = this.props.parseDate || defaultParseDate;
+    var parsedDate = parseDate(event.target.value, this.props.locale);
+    this.setState({ date: parsedDate });
   }
 
   handleClick = (event) => {
     if (this.shouldHandleKeyboard() && this.refs.dialogWindow.state.open) {
       event.stopPropagation();
       return;
-    } 
+    }
   }
 
   handleTouchTap = (event) => {
@@ -334,7 +335,7 @@ class DatePicker extends Component {
       event.stopPropagation();
       event.preventDefault();
       return;
-    } 
+    }
 
     if (this.props.onTouchTap) {
       this.props.onTouchTap(event);
@@ -345,7 +346,7 @@ class DatePicker extends Component {
         this.openDialog();
       }, 0);
     }
-    
+
   };
 
   isControlled() {
@@ -359,16 +360,16 @@ class DatePicker extends Component {
   }
 
   formatDate = (date) => {
-    if (this.props.locale) {
-      const DateTimeFormat = this.props.DateTimeFormat || dateTimeFormat;
-      return new DateTimeFormat(this.props.locale, {
-        day: 'numeric',
-        month: 'numeric',
-        year: 'numeric',
-      }).format(date);
-    } else {
-      return formatIso(date);
+    const defaultFormatDate = (date) => {
+      if (this.props.locale) {
+        const DateTimeFormat = this.props.DateTimeFormat || dateTimeFormat;
+        return new DateTimeFormat(this.props.locale).format(date);
+      } else {
+        return formatIso(date);
+      }
     }
+    const formatDate = this.props.formatDate || defaultFormatDate;
+    return formatDate(date, this.props.locale);
   };
 
   render() {
@@ -396,18 +397,22 @@ class DatePicker extends Component {
       shouldDisableDate,
       style,
       textFieldStyle,
+      formatDate, // eslint-disable-line no-unused-vars
+      parseDate, // eslint-disable-line no-unused-vars
+      hintTextFocus: hintTextFocusProp,
       ...other,
     } = this.props;
 
-    const {prepareStyles} = this.context.muiTheme;
-    const formatDate = formatDateProp || this.formatDate;
+    const { prepareStyles } = this.context.muiTheme;
     const rawDate = this.state.date instanceof Date ?
-      formatDate(this.state.date) :
+      this.formatDate(this.state.date) :
       this.state.date;
     const inputError = rawDate !== undefined && !(this.state.date instanceof Date) ?
       'Enter a valid date' :
       this.props.errorText;
-    const hintText = keyboardEnabled && this.state.keyboardActivated ? 'yyyy-mm-dd' : this.props.hintText;
+
+    const hintTextFocus = keyboardEnabled && this.state.keyboardActivated ? hintTextFocusProp : null;
+    const hintText = hintTextFocus || this.props.hintText;
 
     return (
       <div ref="root" className={className} style={prepareStyles(Object.assign({}, style))}>
