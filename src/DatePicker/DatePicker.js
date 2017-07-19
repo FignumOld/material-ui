@@ -399,6 +399,7 @@ class DatePicker extends Component {
       textFieldStyle,
       formatDate, // eslint-disable-line no-unused-vars
       parseDate, // eslint-disable-line no-unused-vars
+      tabIndex,
       ...other,
     } = this.props;
 
@@ -412,6 +413,8 @@ class DatePicker extends Component {
 
     const hintText = keyboardEnabled && this.state.keyboardActivated ? this.props.hintText : null;
 
+    const textFieldTabIndex = tabIndex || (this.shouldHandleKeyboard() ? 0 : 1);
+
     return (
       <div ref="root" className={className} style={prepareStyles(Object.assign({}, style))}>
         <TextField
@@ -421,7 +424,7 @@ class DatePicker extends Component {
           onKeyDown={this.handleKeyDown}
           onKeyUp={this.handleKeyUp}
           onTouchTap={this.handleTouchTap}
-          tabIndex={this.shouldHandleKeyboard() ? 0 : 1}
+          tabIndex={textFieldTabIndex}
           onChange={this.handleInputChange}
           ref="input"
           style={textFieldStyle}
