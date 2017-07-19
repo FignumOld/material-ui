@@ -354,6 +354,7 @@ class DatePicker extends Component {
   }
 
   getControlledDate(props = this.props) {
+    debugger;
     if (props.value instanceof Date) {
       return props.value;
     }
@@ -404,10 +405,12 @@ class DatePicker extends Component {
     } = this.props;
 
     const { prepareStyles } = this.context.muiTheme;
-    const rawDate = this.state.date instanceof Date ?
+
+    const textFieldValue = this.state.date instanceof Date ?
       this.formatDate(this.state.date) :
       this.state.date;
-    const inputError = rawDate !== undefined && !(this.state.date instanceof Date) ?
+
+    const inputError = textFieldValue !== undefined && !(this.state.date instanceof Date) ?
       'Enter a valid date' :
       this.props.errorText;
 
@@ -428,7 +431,7 @@ class DatePicker extends Component {
           onChange={this.handleInputChange}
           ref="input"
           style={textFieldStyle}
-          value={rawDate ? rawDate : ''}
+          value={textFieldValue || ''}
           errorText={inputError}
           hintText={hintText}
         />
