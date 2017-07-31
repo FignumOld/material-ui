@@ -263,7 +263,7 @@ class DatePicker extends Component {
   };
 
   handleInputBlur = () => {
-    var tmpDate = this.state.date instanceof Date ? this.state.date : undefined;
+    var tmpDate = this.state.date instanceof Date ? this.state.date : null;
     this.handleAccept(tmpDate);
   }
 
