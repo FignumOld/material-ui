@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import * as PropTypes from 'prop-types';
 import List from './List';
 
 class NestedList extends Component {

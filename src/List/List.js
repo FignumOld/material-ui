@@ -1,4 +1,5 @@
-import React, {Component, PropTypes, Children, isValidElement} from 'react';
+import React, {Component, Children, isValidElement} from 'react';
+import * as PropTypes from 'prop-types';
 import Subheader from '../Subheader';
 
 class List extends Component {

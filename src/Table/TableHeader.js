@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import * as PropTypes from 'prop-types';
 import Checkbox from '../Checkbox';
 import TableHeaderColumn from './TableHeaderColumn';
 

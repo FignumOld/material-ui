@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import * as PropTypes from 'prop-types';
 import IconButton from '../IconButton';
 import NavigationMenu from '../svg-icons/navigation/menu';
 import Paper from '../Paper';

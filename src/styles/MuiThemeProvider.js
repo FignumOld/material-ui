@@ -1,4 +1,5 @@
-import {Component, PropTypes} from 'react';
+import {Component} from 'react';
+import * as PropTypes from 'prop-types';
 import getMuiTheme from './getMuiTheme';
 
 class MuiThemeProvider extends Component {

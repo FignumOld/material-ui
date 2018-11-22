@@ -1,4 +1,5 @@
-import {Component, PropTypes} from 'react';
+import {Component} from 'react';
+import * as PropTypes from 'prop-types';
 import {unstable_renderSubtreeIntoContainer, unmountComponentAtNode} from 'react-dom';
 
 import Dom from '../utils/dom';
