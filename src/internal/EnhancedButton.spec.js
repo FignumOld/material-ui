@@ -49,15 +49,12 @@ describe('<EnhancedButton />', () => {
     assert.ok(wrapper.is('button[disabled]'), 'should be a disabled button element');
 
     let clicked = false;
-    let touched = false;
     wrapper.setProps({
       onClick: () => clicked = true,
-      onTouchTap: () => touched = true,
     });
     wrapper.simulate('click');
     wrapper.simulate('touchTap');
     assert.strictEqual(clicked, false, 'should not trigger the click');
-    assert.strictEqual(touched, false, 'should not trigger the touchTap');
   });
 
   it('renders a dummy link button when disabled={true} which blocks onTouchTap from firing', () => {
@@ -74,15 +71,12 @@ describe('<EnhancedButton />', () => {
     assert.notOk(wrapper.is('button'), 'should not be an <a> element');
 
     let clicked = false;
-    let touched = false;
     wrapper.setProps({
       onClick: () => clicked = true,
-      onTouchTap: () => touched = true,
     });
     wrapper.simulate('click');
     wrapper.simulate('touchTap');
     assert.strictEqual(clicked, false, 'should not trigger the click');
-    assert.strictEqual(touched, false, 'should not trigger the touchTap');
   });
 
   it('should be styleable', () => {
@@ -273,7 +267,7 @@ describe('<EnhancedButton />', () => {
     const wrapper = shallowWithContext(
       <EnhancedButton
         keyboardFocused={true}
-        onTouchTap={() => eventStack.push('touchTap')}
+        onClick={() => eventStack.push('touchTap')}
       >
         Button
       </EnhancedButton>

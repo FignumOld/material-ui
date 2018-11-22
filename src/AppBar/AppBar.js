@@ -210,7 +210,7 @@ class AppBar extends Component {
     const titleComponent = typeof title === 'string' || title instanceof String ? 'h1' : 'div';
 
     const titleElement = React.createElement(titleComponent, {
-      onTouchTap: this.handleTitleTouchTap,
+      onClick: this.handleTitleTouchTap,
       style: prepareStyles(Object.assign(styles.title, styles.mainElement, titleStyle)),
     }, title);
 
@@ -245,7 +245,7 @@ class AppBar extends Component {
             style={iconLeftStyle}
             iconStyle={styles.iconButtonIconStyle}
             iconClassName={iconClassNameLeft}
-            onTouchTap={this.handleTouchTapLeftIconButton}
+            onClick={this.handleTouchTapLeftIconButton}
           >
             {child}
           </IconButton>
@@ -296,7 +296,7 @@ class AppBar extends Component {
           style={iconRightStyle}
           iconStyle={styles.iconButtonIconStyle}
           iconClassName={iconClassNameRight}
-          onTouchTap={this.handleTouchTapRightIconButton}
+          onClick={this.handleTouchTapRightIconButton}
         />
       );
     }

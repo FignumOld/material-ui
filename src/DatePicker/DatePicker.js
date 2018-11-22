@@ -113,6 +113,12 @@ class DatePicker extends Component {
      */
     onChange: PropTypes.func,
     /**
+     * Callback function that is fired when a touch tap event occurs on the Date Picker's `TextField`.
+     *
+     * @param {object} event TouchTap event targeting the `TextField`.
+     */
+    onClick: PropTypes.func,
+    /**
      * Callback function that is fired when the Date Picker's dialog is dismissed.
      */
     onDismiss: PropTypes.func,
@@ -124,12 +130,6 @@ class DatePicker extends Component {
      * Callback function that is fired when the Date Picker's dialog is shown.
      */
     onShow: PropTypes.func,
-    /**
-     * Callback function that is fired when a touch tap event occurs on the Date Picker's `TextField`.
-     *
-     * @param {object} event TouchTap event targeting the `TextField`.
-     */
-    onTouchTap: PropTypes.func,
     /**
      * Callback function used to determine if a day's entry should be disabled on the calendar.
      *
@@ -342,8 +342,8 @@ class DatePicker extends Component {
       return;
     }
 
-    if (this.props.onTouchTap) {
-      this.props.onTouchTap(event);
+    if (this.props.onClick) {
+      this.props.onClick(event);
     }
 
     if (!this.props.disabled) {
@@ -398,7 +398,7 @@ class DatePicker extends Component {
       onDismiss,
       onFocus, // eslint-disable-line no-unused-vars
       onShow,
-      onTouchTap, // eslint-disable-line no-unused-vars
+      onClick, // eslint-disable-line no-unused-vars
       shouldDisableDate,
       style,
       textFieldStyle,
@@ -428,7 +428,7 @@ class DatePicker extends Component {
           onBlur={this.handleInputBlur}
           onKeyDown={this.handleKeyDown}
           onKeyUp={this.handleKeyUp}
-          onTouchTap={this.handleTouchTap}
+          onClick={this.handleTouchTap}
           tabIndex={textFieldTabIndex}
           onChange={this.handleInputChange}
           ref="input"

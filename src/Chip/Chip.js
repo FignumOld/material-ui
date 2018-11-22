@@ -35,7 +35,7 @@ function getStyles(props, context, state) {
       backgroundColor: state.clicked ? pressedColor : (state.focused || state.hovered) ? focusColor : backgroundColor,
       borderRadius: 16,
       boxShadow: state.clicked ? chip.shadow : null,
-      cursor: props.onTouchTap ? 'pointer' : 'default',
+      cursor: props.onClick ? 'pointer' : 'default',
       display: 'flex',
       whiteSpace: 'nowrap',
       width: 'fit-content',
@@ -96,7 +96,7 @@ class Chip extends Component {
      *
      * @param {object} event TouchTap event targeting the element.
      */
-    onTouchTap: PropTypes.func,
+    onClick: PropTypes.func,
     /**
      * Override the inline-styles of the root element.
      */
@@ -131,7 +131,7 @@ class Chip extends Component {
   };
 
   handleFocus = (event) => {
-    if (this.props.onTouchTap || this.props.onRequestDelete) {
+    if (this.props.onClick || this.props.onRequestDelete) {
       this.setState({focused: true});
     }
     this.props.onFocus(event);
@@ -162,7 +162,7 @@ class Chip extends Component {
     // Only listen to left clicks
     if (event.button === 0) {
       event.stopPropagation();
-      if (this.props.onTouchTap) {
+      if (this.props.onClick) {
         this.setState({clicked: true});
       }
     }
@@ -170,7 +170,7 @@ class Chip extends Component {
   };
 
   handleMouseEnter = (event) => {
-    if (this.props.onTouchTap) {
+    if (this.props.onClick) {
       this.setState({hovered: true});
     }
     this.props.onMouseEnter(event);
@@ -210,7 +210,7 @@ class Chip extends Component {
 
   handleTouchStart = (event) => {
     event.stopPropagation();
-    if (this.props.onTouchTap) {
+    if (this.props.onClick) {
       this.setState({clicked: true});
     }
     this.props.onTouchStart(event);
@@ -254,7 +254,7 @@ class Chip extends Component {
       <DeleteIcon
         color={styles.deleteIcon.color}
         style={styles.deleteIcon}
-        onTouchTap={this.handleTouchTapDeleteIcon}
+        onClick={this.handleTouchTapDeleteIcon}
         onMouseEnter={this.handleMouseEnterDeleteIcon}
         onMouseLeave={this.handleMouseLeaveDeleteIcon}
       /> :

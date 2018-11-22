@@ -364,7 +364,7 @@ class Drawer extends Component {
           className={overlayClassName}
           style={Object.assign(styles.overlay, overlayStyle)}
           transitionEnabled={!this.state.swiping}
-          onTouchTap={this.handleTouchTapOverlay}
+          onClick={this.handleTouchTapOverlay}
         />
       );
     }
