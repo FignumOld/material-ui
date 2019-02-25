@@ -1,4 +1,4 @@
-#### Note
+#### Note.
 
 For *how-to* questions and other non-issues,
 please use [StackOverflow](http://stackoverflow.com/questions/tagged/material-ui)
