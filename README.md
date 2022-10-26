@@ -140,7 +140,7 @@ for build instructions.
 ## Roadmap
 
 The future plans and high priority features and enhancements can be found
-in the [ROADMAP.md](https://github.com/callemall/material-ui/blob/master/ROADMAP.md) file.
+in the [ROADMAP.md](https://github.com/callemall/material-ui/blob/master/ROADMAP.md) file
 
 ## Contribute
 
